@@ -16,7 +16,7 @@ const Hero = () => {
                     </div>
 
                     <p className="mb-6 text-lg">Effortlessly manage your budget, track expenses, and plan for the future.</p>
-                    <button className="bg-blue-900 text-white px-6 py-3 rounded font-medium hover:bg-gray-200">
+                    <button className="bg-blue-500 text-white px-6 py-3 rounded font-medium hover:bg-gray-200">
                         Get Started
                     </button>
                 </div>

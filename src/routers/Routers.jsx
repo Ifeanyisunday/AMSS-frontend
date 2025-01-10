@@ -1,20 +1,49 @@
 import Home from "../components/landing/Home"
 import Register from "../components/landing/Register"
 import Login from "../components/Login"
-import IncomeExpense from "../components/Income"
-import Dashboard from "../components/landing/Userdashboard"
+import Income from "../components/Income"
 import Businessform from "../components/Businessform"
 import Asset from "../components/Assets"
 import Liability from "../components/Liability"
 import Collateral from "../components/Collateral"
 import Equity from "../components/Equity"
 import Budget from "../components/Budget"
+import Maindashboard from "../components/landing/Main/Maindashboard"
+import Staffform from "../components/Staffform"
+import Expense from "../components/Expense"
+import Features from "../components/Nav/Features"
+import About from "../components/Nav/About"
+import Contact from "../components/Nav/Contact"
 
 
 const ROUTE = [
     {
         path:"/",
         element: <Home/>
+    },
+    {
+        path:"/contact",
+        element:<Contact/>
+    },
+    {
+        path:"/about",
+        element:<About/>
+    },
+    {
+        path:"/features",
+        element:<Features/>
+    },
+    {
+        path:"/expense",
+        element:<Expense/>
+    },
+    {
+        path:"/staff",
+        element: <Staffform/>
+    },
+    {
+        path:"/main",
+        element:<Maindashboard/>
     },
     {
         path:"/budget",
@@ -38,11 +67,7 @@ const ROUTE = [
     },
     {
         path:"/income",
-        element:<IncomeExpense/>
-    },
-    {
-        path:"/userdashboard",
-        element:<Dashboard/>
+        element:<Income/>
     },
     {
         path:"/createbusiness",

@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useLoginUserMutation } from "../apis/Auth"
 
 
 const Login = () => {
 
   const navigate = useNavigate()
 
-  const [login, setLogin] = useState({fullName:"", password:""})
+  const [login, setLogin] = useState({username:"", password:""})
 
   const inputHandler = (e) => {
     e.preventDefault();
@@ -14,14 +15,18 @@ const Login = () => {
     setLogin({...login, [name]: value})
   }
 
-  const submitRequest = async (event) => {
-    event.preventDefault();
+  const [loginUser] = useLoginUserMutation()
+
+  const submitRequest = async (e) => {
+    e.preventDefault();
 
     try {
-      // Send user data to the backend
-      const response = await login({...login}).unwrap();
-      alert(response.message); 
-      navigate("/userdashboard");
+      const response = await loginUser(login).unwrap();
+      localStorage.setItem("token", response.access);
+      localStorage.setItem("username", login.username);
+      navigate("/main");
+      setLogin({username:"", password:""})
+
     } catch (err) {
       if (err?.data?.error) {
         alert(`Error: ${err.data.error}`);
@@ -41,8 +46,8 @@ const Login = () => {
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
             <input
               type="text"
-              name="fullName"
-              value={login.fullName} onChange={inputHandler}
+              name="username"
+              value={login.username} onChange={inputHandler}
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />

@@ -1,38 +1,42 @@
+import { useExpenseMutation } from "../apis/Functions";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from 'react';
-import { useIncomeMutation } from '../apis/Functions';
+import { useState } from "react";
 
+const Expense = ()=> {
 
-const Income = () => {
+    const navigate = useNavigate()
 
-  const navigate = useNavigate()
-  const [incomeFormData, setIncomeFormData] = useState({ amount: '', source: '', description: '', currency:''});
+  const [expenseFormData, setExpenseFormData] = useState({ amount: '', expense_category: '', description:'', currency: ''});
 
-  const handleIncomeRecord = (e) => {
+  const handleExpenseRecord = (e) => {
     e.preventDefault();
     const {name, value} = e.target;
-    setIncomeFormData({...incomeFormData, [name]: value});
+    setExpenseFormData({...expenseFormData, [name]: value});
   };
 
-  const [addincome] = useIncomeMutation()
+  const [addexpense] = useExpenseMutation()
 
-  const handleSubmit1 = async(e) => {
+  const handleSubmit2 = async(e) => {
     e.preventDefault();
     try {
-          const response = await addincome(incomeFormData).unwrap()
+      const response = await addexpense(expenseFormData).unwrap()
           console.log(response);
-          setIncomeFormData({ amount: '', source: '', description: '', currency:'' });
+          setExpenseFormData({
+            amount: '',
+            expense_category: '',
+            description:'',
+            currency: '',
+          });
           navigate("/main")
-      } catch (err) {
-        if (err?.data?.error) {
-          alert(`Error: ${err.data.error}`);
-        } else {
-          alert("An unexpected error occurred.");
-          console.error(err);
-        }
+    }catch (err) {
+      if (err?.data?.error) {
+        alert(`Error: ${err.data.error}`);
+      } else {
+        alert("An unexpected error occurred.");
+        console.error(err);
       }
-  };
-
+    }
+  }
 
 
   return (
@@ -41,16 +45,17 @@ const Income = () => {
     <div className="flex justify-center items-center min-h-screen">
 
     <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-96">
-      <h1 className="text-xl font-semibold mb-4">Income</h1>
+      <h1 className="text-xl font-semibold mb-4">Expenses</h1>
 
-            <form onSubmit={handleSubmit1}>
-              <h2>Income Form</h2>
-                <input
+            <form onSubmit={handleSubmit2}>
+              <h2>Expense Form</h2>
+
+              <input
                   className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                   type="number"
                   name="amount"
-                  value={incomeFormData.amount}
-                  onChange={handleIncomeRecord}
+                  value={expenseFormData.amount}
+                  onChange={handleExpenseRecord}
                   placeholder='Amount'
                   required
                 />
@@ -59,10 +64,10 @@ const Income = () => {
                 <input
                   className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                   type="text"
-                  name="source"
-                  value={incomeFormData.source}
-                  onChange={handleIncomeRecord}
-                  placeholder='Source'
+                  name="expense_category"
+                  value={expenseFormData.expense_category}
+                  onChange={handleExpenseRecord}
+                  placeholder='Expense category'
                   required
                 />
               <br />
@@ -70,8 +75,8 @@ const Income = () => {
                   className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                   type="text"
                   name="description"
-                  value={incomeFormData.description}
-                  onChange={handleIncomeRecord}
+                  value={expenseFormData.description}
+                  onChange={handleExpenseRecord}
                   placeholder='Description'
                   required
                 />
@@ -81,14 +86,14 @@ const Income = () => {
                   className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                   type="text"
                   name="currency"
-                  value={incomeFormData.currency}
-                  onChange={handleIncomeRecord}
+                  value={expenseFormData.currency}
+                  onChange={handleExpenseRecord}
                   placeholder='Currency'
                   required
                 />
               <br />
               <br />
-              <button className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" type="submit">Submit Income</button>
+              <button className="w-full p-2 bg-blue-600 text-white rounded" type="submit">Submit Expense</button>
             </form>
 
       {/* <ul className="mt-4 space-y-2">
@@ -105,4 +110,4 @@ const Income = () => {
   );
 }
 
-export default Income;
+export default Expense;

@@ -1,6 +1,7 @@
 // import { useState } from "react";
 // import Login from "../Login";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
 
@@ -26,11 +27,12 @@ const Navbar = () => {
                 <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                 <h1 className="text-2xl font-bold text-blue-900">LetScale</h1>
                 <nav className="flex space-x-4">
-                    <a href="#features" className="text-gray-600 hover:text-indigo-600">Features</a>
-                    <a href="#about" className="text-gray-600 hover:text-indigo-600">About</a>
-                    <a href="#contact" className="text-gray-600 hover:text-indigo-600">Contact</a>
-                    <button className="bg-blue-900 text-white px-4 py-2 rounded hover:bg-indigo-500" onClick={LoginUser}>Sign In</button>
-                    <button className="bg-blue-900 px-4 py-2 text-white rounded-lg hover:bg-blue-800" onClick={registerUser}>Create Account</button>
+                
+                    <Link to={"/features"}><li className="text-gray-600 hover:text-indigo-600">Features</li></Link>
+                    <Link to={"/about"}><li className="text-gray-600 hover:text-indigo-600">About</li></Link>
+                    <Link to={"/contact"}><li className="text-gray-600 hover:text-indigo-600">Contact</li></Link>
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-indigo-600" onClick={LoginUser}>Sign In</button>
+                    <button className="bg-blue-500 px-4 py-2 text-white rounded-lg hover:bg-blue-600" onClick={registerUser}>Create Account</button>
                 </nav>
                 </div>
             </header>

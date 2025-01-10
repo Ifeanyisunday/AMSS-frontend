@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-// import { useAddUserMutation } from '../apis/UserRegister';
+import { useRegisterUserMutation } from "../../apis/Auth";
 import { useNavigate } from 'react-router-dom';
 
 export const Register = () => {
 
-  const [user, setUser] = useState({fullName:"", phoneNumber:"", password:""});
+  const [user, setUser] = useState({email:"", username:"", password:""});
 
   const navigate = useNavigate();
-
-  // const [createUser, ] = 0
 
   const inputHandler = (e) => {
     e.preventDefault();
@@ -16,16 +14,17 @@ export const Register = () => {
     setUser({...user, [name]: value})
   }
 
-  const submitRequest = async (event) => {
-    event.preventDefault();
+  const [createUser] = useRegisterUserMutation()
 
+  const addUserRequest = async (e) => {
+    e.preventDefault();
+    
     try {
-      // Send user data to the backend
-      // const response = await createUser(user).unwrap();
-      // alert(response.message); // "User registered successfully"
-      // setUser({fullName:"", phoneNumber:"", password:""})
-      // navigate("/")
-      
+      const response = await createUser(user).unwrap()
+      console.log(response)
+      localStorage.setItem("email", response.email)
+      setUser({email:"", username:"", password:""})
+      navigate("/loginPage")   
     } catch (err) {
       if (err?.data?.error) {
         alert(`Error: ${err.data.error}`);
@@ -43,23 +42,23 @@ export const Register = () => {
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-96">
         <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
-        <form onSubmit={submitRequest}>
+        <form action="/auth/users/" method="POST" onSubmit={addUserRequest}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input
-              type="text"
-              name="fullName"
-              value={user.fullName} onChange={inputHandler}
+              type="email"
+              name="email"
+              value={user.email} onChange={inputHandler}
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="phonenumber" className="block text-sm font-medium text-gray-700">Phone number</label>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
             <input
               type="text"
-              name="phoneNumber"
-              value={user.phoneNumber} onChange={inputHandler}
+              name="username"
+              value={user.username} onChange={inputHandler}
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
@@ -68,7 +67,7 @@ export const Register = () => {
           <div className="mb-6">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
             <input
-              type="password"
+              type="text"
               name="password"
               value={user.password} onChange={inputHandler}
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"

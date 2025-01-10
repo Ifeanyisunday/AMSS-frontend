@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import functionalty from "../apis/Functionalty";
+import auth from "../apis/Auth";
+import { functions } from "../apis/Functions";
 
 
 const store = configureStore({
     reducer:{
-        [functionalty.reducerPath] : functionalty.reducer,
+        [auth.reducerPath] : auth.reducer,
+        [functions.reducerPath] : functions.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(functionalty.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(auth.middleware, functions.middleware),
 });
 
 export default store
